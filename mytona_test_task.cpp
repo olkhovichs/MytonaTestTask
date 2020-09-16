@@ -2,15 +2,6 @@
 #include <iostream>
 #include <vector>
 
-void spawnCar();
-void spawnCarFromTop();
-void spawnCarFromDown();
-void spawnCarFromRight();
-void spawnCarFromLeft();
-
-
-
-
 struct sPos { // позиция 
     sPos() { // начальная 
         x = 0; 
@@ -82,20 +73,35 @@ struct sCar {
     bool needPassOtherCar(sCar* otherCar) { //  нужно пропустить другой автомобиль?
         bool result;
         switch (dir) {
-        case eDirection::UP:
-            auto otherdir = otherCar->dir; if (otherdir == eDirection::LEFT)
-                result = true; break;
-        case eDirection::DOWN:
-            auto otherdir = otherCar->dir;
-            if (otherdir == eDirection::RIGHT)
-                result = true; break;
-        case eDirection::RIGHT:
-            auto otherdir = otherCar->dir; if (otherdir == eDirection::UP)
-                result = true; break;
-        case eDirection::LEFT:
-            auto otherdir = otherCar->dir; if (otherdir == eDirection::LEFT)
-                result = false; else
-                result = false; break;
+            case eDirection::UP: {
+                auto otherdir = otherCar->dir; 
+                if (otherdir == eDirection::LEFT)
+                    result = true; 
+                break;
+            }
+            case eDirection::DOWN: {
+                auto otherdir = otherCar->dir;
+                if (otherdir == eDirection::RIGHT)
+                    result = true;
+                break;
+            }
+            
+            case eDirection::RIGHT: {
+                auto otherdir = otherCar->dir;
+                if (otherdir == eDirection::UP)
+                    result = true;
+                break;
+            }
+            case eDirection::LEFT: {
+                auto otherdir = otherCar->dir;
+                if (otherdir == eDirection::LEFT)
+                    result = false;
+                else
+                    result = false;
+                break;
+            }
+            /*default:
+                std::cout << "Error";*/ // ????
         }
         return result;
     }
@@ -150,6 +156,10 @@ const int initialCarsCount = 10; // начальное количество ав
 
 #define SCREEN_WIDTH 1024 
 #define SCREEN_HEIGHT 768 
+void spawnCarFromTop();
+void spawnCarFromRight();
+void spawnCarFromBot();
+void SpawnCarFromLeft();
 
 void spawnCar() { // спавн автомобилей
     if (rand() % 4 == 1) 
@@ -174,9 +184,14 @@ void spawnCarFromTop() {
     else if (carType % 3 == 2) {
         car = new sHybrid();
     }
-    car->rect = sRect(SCREEN_WIDTH / 2, 0, 100, 100); car->speed = 1;
+    else {
+        car = new sGasEngine();
+    } // ??? 
+    car->rect = sRect(SCREEN_WIDTH / 2, 0, 100, 100); 
+    car->speed = 1;
     car->dir = eDirection::DOWN;
 }
+
 void spawnCarFromBot() {
     sCar* car;
     int carType = rand();
@@ -188,6 +203,9 @@ void spawnCarFromBot() {
     }
     else if (carType % 3 == 2) {
         car = new sHybrid();
+    }
+    else {
+        car = new sGasEngine();
     }
     car->rect = sRect(SCREEN_WIDTH / 2, SCREEN_HEIGHT, 100, 100);
     car->speed = 1;
@@ -205,6 +223,9 @@ void SpawnCarFromLeft() {
     else if (carType % 3 == 2) {
         car = new sHybrid();
     }
+    else {
+        car = new sGasEngine();
+    }
     car->rect = sRect(0, SCREEN_HEIGHT / 2, 100, 100);
     car->speed = 1;
 }
@@ -219,6 +240,9 @@ void spawnCarFromRight() {
     }
     else if (carType % 3 == 2) {
         car = new sHybrid();
+    }
+    else {
+        car = new sGasEngine();
     }
     car->rect = sRect(0, SCREEN_HEIGHT / 2, 100, 100);
     car->speed = 1;
