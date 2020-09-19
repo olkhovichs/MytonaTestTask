@@ -10,8 +10,8 @@ ___
 ___
 ## Error correction
 +   Исправлена синтаксическая ошибка в `sRect getFuturePos()` `case eDirection::up:` => `case eDirection::UP:`.
-+   С2371 
-    + ```
++   Исправление С2371 
+```
 bool needPassOtherCar(sCar* otherCar) { 
         bool result;
         switch (dir) {
